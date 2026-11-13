@@ -1,0 +1,486 @@
+
+# ==========================================================
+# PROGETTO D'ESAME: SISTEMA DI PRENOTAZIONE VIAGGI
+# ==========================================================
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# ==========================================================
+# PARTE 1 - VARIABILI E TIPI DI DATI
+# ==========================================================
+
+print("\n========== PARTE 1 - VARIABILI E TIPI DI DATI ==========")
+
+# Informazioni di un cliente
+nome = "Mario Rossi"
+eta = 34
+saldo = 2500.75
+vip = True
+
+print("Nome:", nome)
+print("Età:", eta)
+print("Saldo conto:", saldo, "euro")
+print("Cliente VIP:", vip)
+
+# Lista delle destinazioni disponibili
+destinazioni = [
+    "Parigi",
+    "Londra",
+    "Tokyo",
+    "New York",
+    "Il Cairo",
+    "Roma",
+    "Bangkok",
+    "Madrid"
+]
+
+print("\nDestinazioni disponibili:")
+print(destinazioni)
+
+# Dizionario con il prezzo medio dei viaggi
+prezzi_destinazioni = {
+    "Parigi": 650,
+    "Londra": 700,
+    "Tokyo": 1500,
+    "New York": 1300,
+    "Il Cairo": 850,
+    "Roma": 400,
+    "Bangkok": 1200,
+    "Madrid": 500
+}
+
+print("\nPrezzi medi dei viaggi:")
+for destinazione, prezzo in prezzi_destinazioni.items():
+    print(destinazione, "-", prezzo, "euro")
+
+
+# ==========================================================
+# PARTE 2 - PROGRAMMAZIONE AD OGGETTI (OOP)
+# ==========================================================
+
+print("\n========== PARTE 2 - PROGRAMMAZIONE AD OGGETTI ==========")
+
+
+# Classe Cliente
+class Cliente:
+
+    def __init__(self, nome, eta, vip):
+        self.nome = nome
+        self.eta = eta
+        self.vip = vip
+
+    # Metodo per stampare le informazioni del cliente
+    def informazioni(self):
+        print("\nINFORMAZIONI CLIENTE")
+        print("Nome:", self.nome)
+        print("Età:", self.eta)
+        print("Cliente VIP:", self.vip)
+
+
+# Classe Viaggio
+class Viaggio:
+
+    def __init__(self, destinazione, prezzo, durata):
+        self.destinazione = destinazione
+        self.prezzo = prezzo
+        self.durata = durata
+
+
+# Classe Prenotazione
+class Prenotazione:
+
+    def __init__(self, cliente, viaggio):
+        self.cliente = cliente
+        self.viaggio = viaggio
+
+    # Calcolo dell'importo finale
+    def importo_finale(self):
+
+        if self.cliente.vip:
+            return self.viaggio.prezzo * 0.90
+
+        return self.viaggio.prezzo
+
+    # Metodo per stampare tutti i dettagli
+    def dettagli(self):
+
+        print("\nDETTAGLI PRENOTAZIONE")
+        print("------------------------------")
+        print("Cliente:", self.cliente.nome)
+        print("Età:", self.cliente.eta)
+        print("Destinazione:", self.viaggio.destinazione)
+        print("Prezzo iniziale:", self.viaggio.prezzo, "euro")
+        print("Durata:", self.viaggio.durata, "giorni")
+        print("Cliente VIP:", self.cliente.vip)
+
+        if self.cliente.vip:
+            print("Sconto applicato: 10%")
+        else:
+            print("Sconto applicato: nessuno")
+
+        print("Importo finale:", round(self.importo_finale(), 2), "euro")
+
+
+# Creazione di alcuni clienti
+cliente1 = Cliente("Mario Rossi", 34, True)
+cliente2 = Cliente("Laura Bianchi", 28, False)
+cliente3 = Cliente("Giuseppe Verdi", 45, True)
+
+# Creazione di alcuni viaggi
+viaggio1 = Viaggio("Parigi", 650, 5)
+viaggio2 = Viaggio("Tokyo", 1500, 10)
+viaggio3 = Viaggio("New York", 1300, 7)
+
+# Creazione delle prenotazioni
+prenotazione1 = Prenotazione(cliente1, viaggio1)
+prenotazione2 = Prenotazione(cliente2, viaggio2)
+prenotazione3 = Prenotazione(cliente3, viaggio3)
+
+# Visualizzazione delle informazioni
+cliente1.informazioni()
+prenotazione1.dettagli()
+
+cliente2.informazioni()
+prenotazione2.dettagli()
+
+cliente3.informazioni()
+prenotazione3.dettagli()
+
+
+# ==========================================================
+# PARTE 3 - ANALISI CON NUMPY
+# ==========================================================
+
+print("\n========== PARTE 3 - ANALISI CON NUMPY ==========")
+
+# Generazione di 100 prezzi casuali tra 200 e 2000 euro
+np.random.seed(42)
+
+prezzi_prenotazioni = np.random.uniform(200, 2000, 100)
+
+# Calcolo delle statistiche
+prezzo_medio = np.mean(prezzi_prenotazioni)
+prezzo_minimo = np.min(prezzi_prenotazioni)
+prezzo_massimo = np.max(prezzi_prenotazioni)
+deviazione_standard = np.std(prezzi_prenotazioni)
+
+# Numero di prenotazioni sopra la media
+prenotazioni_sopra_media = np.sum(
+    prezzi_prenotazioni > prezzo_medio
+)
+
+# Percentuale di prenotazioni sopra la media
+percentuale_sopra_media = (
+    prenotazioni_sopra_media / len(prezzi_prenotazioni)
+) * 100
+
+print("Numero di prenotazioni:", len(prezzi_prenotazioni))
+print("Prezzo medio:", round(prezzo_medio, 2), "euro")
+print("Prezzo minimo:", round(prezzo_minimo, 2), "euro")
+print("Prezzo massimo:", round(prezzo_massimo, 2), "euro")
+print("Deviazione standard:", round(deviazione_standard, 2))
+print("Prenotazioni sopra la media:", prenotazioni_sopra_media)
+print("Percentuale sopra la media:", round(percentuale_sopra_media, 2), "%")
+
+
+# ==========================================================
+# PARTE 4 - ANALISI CON PANDAS
+# ==========================================================
+
+print("\n========== PARTE 4 - ANALISI CON PANDAS ==========")
+
+# Creazione dei dati delle prenotazioni
+dati_prenotazioni = {
+
+    "Cliente": [
+        "Mario Rossi", "Laura Bianchi", "Giuseppe Verdi",
+        "Anna Ferrari", "Paolo Romano", "Luca Bianchi",
+        "Sara Conti", "Marco Neri", "Elena Gallo",
+        "Francesco Russo", "Giulia Moretti", "Andrea Costa",
+        "Matteo Ricci", "Chiara Greco", "Davide Bruno",
+        "Sofia Romano", "Alessandro Villa", "Martina Serra",
+        "Lorenzo Fontana", "Alice Marino", "Stefano Riva",
+        "Valentina Leone", "Simone Galli", "Federica De Luca",
+        "Roberto Sala", "Camilla Ferri", "Giorgio Martini",
+        "Beatrice Colombo", "Nicola Barbieri", "Irene Caruso"
+    ],
+
+    "Destinazione": [
+        "Parigi", "Tokyo", "New York", "Roma", "Londra",
+        "Madrid", "Bangkok", "Parigi", "Il Cairo", "Tokyo",
+        "Roma", "New York", "Londra", "Madrid", "Parigi",
+        "Bangkok", "Tokyo", "Il Cairo", "Roma", "New York",
+        "Parigi", "Londra", "Madrid", "Bangkok", "Tokyo",
+        "Il Cairo", "Roma", "Parigi", "New York", "Londra"
+    ],
+
+    "Giorno_Partenza": [
+        "2026-01-01", "2026-01-02", "2026-01-03",
+        "2026-01-04", "2026-01-05", "2026-01-06",
+        "2026-01-07", "2026-01-08", "2026-01-09",
+        "2026-01-10", "2026-01-11", "2026-01-12",
+        "2026-01-13", "2026-01-14", "2026-01-15",
+        "2026-01-16", "2026-01-17", "2026-01-18",
+        "2026-01-19", "2026-01-20", "2026-01-21",
+        "2026-01-22", "2026-01-23", "2026-01-24",
+        "2026-01-25", "2026-01-26", "2026-01-27",
+        "2026-01-28", "2026-01-29", "2026-01-30"
+    ],
+
+    "Durata": [
+        5, 10, 7, 3, 6, 4, 9, 5, 6, 10,
+        3, 7, 6, 4, 5, 9, 10, 6, 3, 7,
+        5, 6, 4, 9, 10, 6, 3, 5, 7, 6
+    ]
+}
+
+# Creazione del DataFrame
+df = pd.DataFrame(dati_prenotazioni)
+
+# Inserimento dei prezzi in base alla destinazione
+df["Prezzo"] = df["Destinazione"].map(prezzi_destinazioni)
+
+# In questo esempio l'incasso coincide con il prezzo della prenotazione.
+# I prezzi sono già considerati come importi effettivamente incassati.
+df["Incasso"] = df["Prezzo"]
+
+# Conversione della data in formato datetime
+df["Giorno_Partenza"] = pd.to_datetime(df["Giorno_Partenza"])
+
+print("\nDATAFRAME DELLE PRENOTAZIONI")
+print(df.to_string(index=False))
+
+
+# Incasso totale dell'agenzia
+incasso_totale = df["Incasso"].sum()
+
+print("\nIncasso totale dell'agenzia:")
+print(round(incasso_totale, 2), "euro")
+
+
+# Incasso medio per destinazione
+incasso_medio_destinazione = df.groupby(
+    "Destinazione"
+)["Incasso"].mean()
+
+print("\nIncasso medio per destinazione:")
+print(incasso_medio_destinazione.round(2))
+
+
+# Top 3 destinazioni più vendute
+top3_destinazioni = df["Destinazione"].value_counts().head(3)
+
+print("\nTOP 3 DESTINAZIONI PIÙ VENDUTE:")
+print(top3_destinazioni)
+
+
+# ==========================================================
+# PARTE 5 - GRAFICI CON MATPLOTLIB
+# ==========================================================
+
+print("\n========== PARTE 5 - GRAFICI ==========")
+
+
+# Raggruppamento degli incassi per destinazione
+incassi_destinazione = df.groupby(
+    "Destinazione"
+)["Incasso"].sum()
+
+
+# GRAFICO 1 - Grafico a barre
+plt.figure(figsize=(10, 6))
+
+incassi_destinazione.plot(kind="bar")
+
+plt.title("Incasso totale per destinazione")
+plt.xlabel("Destinazione")
+plt.ylabel("Incasso in euro")
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+plt.show()
+
+
+# GRAFICO 2 - Grafico a linee
+incassi_giornalieri = df.groupby(
+    "Giorno_Partenza"
+)["Incasso"].sum()
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(
+    incassi_giornalieri.index,
+    incassi_giornalieri.values,
+    marker="o"
+)
+
+plt.title("Andamento giornaliero degli incassi")
+plt.xlabel("Giorno di partenza")
+plt.ylabel("Incasso in euro")
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()
+
+plt.show()
+
+
+# GRAFICO 3 - Grafico a torta
+plt.figure(figsize=(8, 8))
+
+plt.pie(
+    incassi_destinazione.values,
+    labels=incassi_destinazione.index,
+    autopct="%1.1f%%",
+    startangle=90
+)
+
+plt.title("Percentuale degli incassi per destinazione")
+plt.tight_layout()
+
+plt.show()
+
+
+# ==========================================================
+# PARTE 6 - ANALISI AVANZATA
+# ==========================================================
+
+print("\n========== PARTE 6 - ANALISI AVANZATA ==========")
+
+# Dizionario che associa le destinazioni alle categorie
+categorie_destinazioni = {
+
+    "Parigi": "Europa",
+    "Londra": "Europa",
+    "Roma": "Europa",
+    "Madrid": "Europa",
+
+    "Tokyo": "Asia",
+    "Bangkok": "Asia",
+
+    "New York": "America",
+
+    "Il Cairo": "Africa"
+}
+
+# Aggiunta della categoria al DataFrame
+df["Categoria"] = df["Destinazione"].map(
+    categorie_destinazioni
+)
+
+# Incasso totale per categoria
+incasso_categoria = df.groupby(
+    "Categoria"
+)["Incasso"].sum()
+
+print("\nINCASSO TOTALE PER CATEGORIA:")
+print(incasso_categoria)
+
+
+# Durata media dei viaggi per categoria
+durata_media_categoria = df.groupby(
+    "Categoria"
+)["Durata"].mean()
+
+print("\nDURATA MEDIA DEI VIAGGI PER CATEGORIA:")
+print(durata_media_categoria.round(2))
+
+
+# Salvataggio del DataFrame aggiornato in CSV
+df.to_csv(
+    "prenotazioni_analizzate.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+
+print("\nFile CSV salvato correttamente:")
+print("prenotazioni_analizzate.csv")
+
+
+# ==========================================================
+# PARTE 7 - ESTENSIONI
+# ==========================================================
+
+print("\n========== PARTE 7 - ESTENSIONI ==========")
+
+
+# Funzione che restituisce gli N clienti con più prenotazioni
+def clienti_piu_attivi(dataframe, n):
+
+    numero_prenotazioni = dataframe[
+        "Cliente"
+    ].value_counts()
+
+    return numero_prenotazioni.head(n)
+
+
+# Esempio: restituisce i 5 clienti con più prenotazioni
+print("\nI 5 CLIENTI CON PIÙ PRENOTAZIONI:")
+
+top_clienti = clienti_piu_attivi(df, 5)
+
+print(top_clienti)
+
+
+# GRAFICO COMBINATO: BARRE + LINEA
+
+# Calcolo dell'incasso medio per categoria
+incasso_medio_categoria = df.groupby(
+    "Categoria"
+)["Incasso"].mean()
+
+# Calcolo della durata media per categoria
+durata_media_categoria = df.groupby(
+    "Categoria"
+)["Durata"].mean()
+
+# Creazione del grafico
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+# Grafico a barre: incasso medio
+ax1.bar(
+    incasso_medio_categoria.index,
+    incasso_medio_categoria.values,
+    alpha=0.7,
+    label="Incasso medio"
+)
+
+ax1.set_xlabel("Categoria")
+ax1.set_ylabel("Incasso medio in euro")
+ax1.set_title("Incasso medio e durata media per categoria")
+
+# Secondo asse verticale per la durata media
+ax2 = ax1.twinx()
+
+# Grafico a linee: durata media
+ax2.plot(
+    durata_media_categoria.index,
+    durata_media_categoria.values,
+    marker="o",
+    label="Durata media"
+)
+
+ax2.set_ylabel("Durata media in giorni")
+
+# Legenda combinata
+linee1, etichette1 = ax1.get_legend_handles_labels()
+linee2, etichette2 = ax2.get_legend_handles_labels()
+
+ax1.legend(
+    linee1 + linee2,
+    etichette1 + etichette2,
+    loc="upper right"
+)
+
+plt.tight_layout()
+plt.show()
+
+
+# ==========================================================
+# FINE DEL PROGETTO
+# ==========================================================
+
+print("\n========== PROGETTO COMPLETATO ==========")
+print("Tutte le analisi sono state eseguite correttamente.")
